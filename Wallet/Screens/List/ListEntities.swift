@@ -8,6 +8,12 @@
 
 import Foundation
 
+enum Counter: String, CaseIterable {
+    case sgd = "SGD"
+    case usd = "USD"
+    case dai = "DAI"
+}
+
 struct ListEntryEntity {
     let currencies: [Currency]?
 }

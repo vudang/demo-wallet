@@ -2,8 +2,8 @@
 //  Requester+Currentcy.swift
 //  Wallet
 //
-//  Created by tony on 7/20/21.
-//  Copyright © 2021 Tsubasa Hayashi. All rights reserved.
+//  Created by Vu Dang on 7/20/21.
+//  Copyright © 2021 Vu Dang. All rights reserved.
 //
 
 import RxSwift

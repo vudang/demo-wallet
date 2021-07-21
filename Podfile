@@ -7,6 +7,7 @@ target 'Wallet' do
   pod 'RxSwift'
   pod 'RxCocoa'
   pod 'Alamofire'
+  pod 'AlamofireImage'
 
   target 'WalletTests' do
     inherit! :search_paths

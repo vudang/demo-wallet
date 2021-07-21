@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ListViewController" customModule="Wallet" customModuleProvider="target">
             <connections>
+                <outlet property="emptyView" destination="Bbd-pe-1Hl" id="maa-Ki-4d6"/>
                 <outlet property="indicatorView" destination="Q2o-5o-750" id="30m-9A-bMp"/>
                 <outlet property="tableView" destination="UxX-H2-ZGK" id="ll1-md-iBy"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
@@ -23,28 +24,39 @@
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="UxX-H2-ZGK">
                     <rect key="frame" x="0.0" y="44" width="414" height="818"/>
-                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 </tableView>
-                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Q2o-5o-750">
-                    <rect key="frame" x="197" y="438" width="20" height="20"/>
+                <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Q2o-5o-750">
+                    <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
+                    <color key="color" systemColor="systemOrangeColor"/>
                 </activityIndicatorView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Not found!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bbd-pe-1Hl">
+                    <rect key="frame" x="20" y="94" width="374" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" systemColor="systemOrangeColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="UxX-H2-ZGK" secondAttribute="bottom" id="0mG-1N-WGo"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Bbd-pe-1Hl" secondAttribute="trailing" constant="20" id="BeN-gb-Kcc"/>
                 <constraint firstItem="UxX-H2-ZGK" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="QQN-Kg-wVr"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="UxX-H2-ZGK" secondAttribute="trailing" id="Xni-ro-LzN"/>
                 <constraint firstItem="Q2o-5o-750" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="iSS-Zn-qWO"/>
-                <constraint firstItem="UxX-H2-ZGK" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="mc9-IS-Rpj"/>
+                <constraint firstItem="Bbd-pe-1Hl" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="50" id="mIe-io-Kk0"/>
+                <constraint firstItem="UxX-H2-ZGK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="44" id="mc9-IS-Rpj"/>
                 <constraint firstItem="Q2o-5o-750" firstAttribute="centerX" secondItem="fnl-2z-Ty3" secondAttribute="centerX" id="tFi-Fg-ZL1"/>
+                <constraint firstItem="Bbd-pe-1Hl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="zKK-G5-Jr6"/>
             </constraints>
             <point key="canvasLocation" x="137.68115942028987" y="153.34821428571428"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>

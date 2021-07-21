@@ -7,6 +7,7 @@
 //
 
 import RxSwift
+import RxRelay
 
 protocol ListInteractorOutputs: AnyObject {
     func onSuccessSearch(res: [Currency])
@@ -17,35 +18,61 @@ final class ListInteractor: Interactorable {
 
     weak var presenter: ListInteractorOutputs?
     private lazy var disposeBag = DisposeBag()
-    private let searchingSubject = ReplaySubject<String?>.create(bufferSize: 1)
+    private let counterSubject = ReplaySubject<String?>.create(bufferSize: 1)
+    private let nameSubject = ReplaySubject<String?>.create(bufferSize: 1)
+    private let resultSubject = BehaviorRelay<[Currency]>.init(value: [])
     
     init() {
-        self.observerSearching()
+        self.observerSearchingByCounter()
+        self.observerSearchingByName()
     }
 
-    private func observerSearching() {
+    private func observerSearchingByCounter() {
         let timerSubject = Observable<Int>.timer(RxTimeInterval.seconds(0),
                                                  period: RxTimeInterval.seconds(30),
                                                  scheduler: ConcurrentMainScheduler.instance)
-        let searchSubject = searchingSubject.distinctUntilChanged()
+        let searchSubject = counterSubject
             .debounce(RxTimeInterval.milliseconds(500), scheduler: ConcurrentMainScheduler.instance)
             .flatMapLatest { Requester.fetchListCurrency($0) }
         
-        Observable.combineLatest(searchSubject, timerSubject)
-            .map { $0.0 }
+        timerSubject.flatMap { _ in searchSubject }
             .observe(on: MainScheduler.instance)
             .subscribe { [weak self] res in
-                print("aaaa")
                 guard let list = res.0 else {
+                    self?.resultSubject.accept([])
                     return
                 }
                 self?.presenter?.onSuccessSearch(res: list)
+                self?.resultSubject.accept(list)
             } onError: { [weak self] error in
                 self?.presenter?.onErrorSearch(error: error)
+                self?.resultSubject.accept([])
             }.disposed(by: disposeBag)
     }
     
-    func searchCurrencies(currency: String? = nil) {
-        self.searchingSubject.onNext(currency)
+    private func observerSearchingByName() {
+        Observable.combineLatest(nameSubject.distinctUntilChanged(), resultSubject.skip(1)) { (keyword: $0, currencies: $1) }
+            .map { data in
+                guard let k = data.keyword, !k.isEmpty else {
+                    return data.currencies
+                }
+                
+                return data.currencies.filter { currency in
+                    let name = [currency.name ?? "", currency.base ?? ""].joined(separator: " ")
+                    return name.lowercased().contains(k.lowercased())
+                }
+            }
+            .observe(on: MainScheduler.instance)
+            .subscribe { [weak self] list in
+                self?.presenter?.onSuccessSearch(res: list)
+            }.disposed(by: disposeBag)
+    }
+    
+    func searchCurrencies(counter: String? = nil) {
+        self.counterSubject.onNext(counter)
+    }
+    
+    func filterCurrencies(name: String? = nil) {
+        self.nameSubject.onNext(name)
     }
 }

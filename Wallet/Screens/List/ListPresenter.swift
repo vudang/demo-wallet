@@ -16,6 +16,7 @@ typealias ListPresenterDependencies = (
 
 protocol ListViewInputs: AnyObject {
     func reloadData(_ data: ListEntities)
+    func reloadCounters(_ counters: [String])
     func indicator(animate: Bool)
 }
 
@@ -24,6 +25,7 @@ final class ListPresenter: Presenterable {
     internal var entities: ListEntities?
     private weak var view: ListViewInputs!
     let dependencies: ListPresenterDependencies
+    private var counter: String?
 
     init(view: ListViewInputs,
          dependencies: ListPresenterDependencies)
@@ -35,11 +37,24 @@ final class ListPresenter: Presenterable {
 
 extension ListPresenter: ListViewOutputs {
     func viewDidLoad() {
+        view.indicator(animate: true)
+        view.reloadCounters(Counter.allCases.map{ $0.rawValue })
         dependencies.interactor.searchCurrencies()
     }
     
+    func changeCounter(_ counter: String) {
+        self.counter = counter
+        view.indicator(animate: true)
+        dependencies.interactor.searchCurrencies(counter: counter)
+    }
+    
     func searchCurrency(with keyword: String?) {
-        dependencies.interactor.searchCurrencies(currency: keyword)
+        view.indicator(animate: true)
+        dependencies.interactor.filterCurrencies(name: keyword)
+    }
+    
+    func pullToRefresh() {
+        dependencies.interactor.searchCurrencies(counter: counter)
     }
     
     func didSelected(_ currency: Currency) {

@@ -41,7 +41,7 @@ final class ListRouterOutput: Routerable {
     }
 
     func transitionDetail(_ currency: Currency) {
-        DetailRouterInput().push(from: view, entryEntity: DetailEntryEntity(currenct: currency))
+        // TODO: show detail 
     }
 }
 
